@@ -25,12 +25,12 @@ module Capistrano
         		end
 				def start()
 					puts "starting application using custom command"
-					@configuration.run("#{stop_command}")
+					@configuration.run("#{start_command}")
 				end   
 
 				def stop()
 					puts "stopping application using custom command"
-					@configuration.run("#{start_command}")
+					@configuration.run("#{stop_command}")
 				end   				
 			end
 		end
