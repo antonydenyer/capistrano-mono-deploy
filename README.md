@@ -32,7 +32,7 @@ You probably shouldn't use xsp as a production server, consider using nginx with
 ```ruby
 require "capistrano/mono-deploy"
 
-set :app, "your.server.fqdn"
+role :app, "your.server.fqdn"
 set :user, "deploy"
 set :deploy_to, "/var/apps/my-app-folder"
 
@@ -43,7 +43,7 @@ Custom command Capfile Example
 ```ruby
 require "capistrano/mono-deploy"
 
-set :app, "your.server.fqdn"
+role :app, "your.server.fqdn"
 set :user, "deploy"
 set :deploy_to, "/var/apps/my-app-folder"
 
