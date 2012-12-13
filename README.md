@@ -25,7 +25,7 @@ Or install it yourself as:
 
 ## Usage
 
-xsp4 Capfile Example
+xsp4 capfile example
 --------------------
 You probably shouldn't use xsp as a production server, consider using nginx with fastcgi
 
@@ -38,7 +38,7 @@ set :deploy_to, "/var/apps/my-app-folder"
 
 ```
 
-Custom command Capfile Example
+Custom command capfile example
 ------------------------------
 ```ruby
 require "capistrano/mono-deploy"
