@@ -38,6 +38,20 @@ set :deploy_to, "/var/apps/my-app-folder"
 
 ```
 
+fastcgi capfile example
+-----------------------
+This will run fastcgi-mono-server4.exe in the background, if the process dies it will not bring it back up again
+
+```ruby
+require "capistrano/mono-deploy"
+
+role :app, "your.server.fqdn"
+set :user, "deploy"
+set :deploy_to, "/var/apps/my-app-folder"
+set :mono_app, :fastcgi
+
+```
+
 Custom command capfile example
 ------------------------------
 ```ruby
