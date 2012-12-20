@@ -7,13 +7,36 @@ module Capistrano
 			class Upstart
 				# Ideas taken from https://github.com/loopj/capistrano-node-deploy/blob/master/lib/capistrano/node-deploy.rb
 
+				def generate_upstart_config
+					template = '#!upstart ' <<
+						'description "{{application}} mono app"' <<
+						'author "Antony Denyer" https://github.com/antonydenyer/capistrano-mono-deploy' <<
+						'' <<
+						'start on (filesystem and net-device-up IFACE=lo)' <<
+						'stop on shutdown' <<
+						'' <<
+						'respawn' <<
+						'respawn limit 99 5'<<
+						'' <<
+						'script' <<
+						'{{fastcgi_command}}' <<
+						'end script'
+
+  					template.gsub(/\{\{(.*?)\}\}/) { eval($1) }
+				end	
+	
 				def upstart_job_name
-					@configuration.variables[:upstart_job_name] || "#{application}-#{node_env}"
+					@configuration.variables[:upstart_job_name] || "#{application}"
 				end
 
 				def upstart_file_path
 					@configuration.variables[:upstart_file_path] || "/etc/init/#{upstart_job_name}.conf"
 				end
+
+				def application
+					socketName = @configuration.variables[:application] || "upstart-fastcgi-mono-server4"
+					socketName = socketName.gsub(/\s+/, "") 
+        		end
 
 				def socket
 					socketName = @configuration.variables[:application] || "fastcgi-mono-server4"
@@ -43,19 +66,22 @@ module Capistrano
 				  !exists || exists && !remote_file_content_same_as?(full_path, content)
 				end
 
-				def create_upstart_config do
+				def create_upstart_config
       				config_file_path = "/etc/init/#{application}.conf"
-      				temp_config_file_path = "#{shared_path}/#{application}.conf"
+      				temp_config_file_path = "/tmp/#{application}.conf"
       				# Generate and upload the upstart script
-      				put generate_upstart_config, temp_config_file_path
+      				@configuration.put generate_upstart_config, temp_config_file_path
 				     # Copy the script into place and make executable
-      				@configuration.run('sudo "cp #{temp_config_file_path} #{upstart_file_path}"')
+      				@configuration.sudo("cp #{temp_config_file_path} #{upstart_file_path}")
     			end
 				
 				def initialize(configuration={})
           			@configuration = configuration
         		end
 
+        		def sudo
+        			@configuration.variables[:sudo]
+        		end
 				def start()
 					create_upstart_config if remote_file_differs?(upstart_file_path, generate_upstart_config)
 					puts "starting application using fastcgi on socket #{socket}"
@@ -86,23 +112,6 @@ module Capistrano
 				end   		
 
 
-				def generate_upstart_config
-					template = '#!upstart ' <<
-						'description "{{application}} node app"' <<
-						'author "capistrano"' <<
-						'' <<
-						'start on (filesystem and net-device-up IFACE=lo)' <<
-						'stop on shutdown' <<
-						'' <<
-						'respawn' <<
-						'respawn limit 99 5'<<
-						'' <<
-						'script' <<
-						'{{fastcgi_command}}' <<
-						'end script'
-  					template.gsub(/\{\{(.*?)\}\}/) { eval($1) }
-				end	
-	
 			end
 		end
 	end
