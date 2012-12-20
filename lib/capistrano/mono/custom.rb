@@ -24,12 +24,12 @@ module Capistrano
           			@configuration = configuration
         		end
 				def start()
-					puts "starting application using custom command"
+					puts "> starting application using custom command"
 					@configuration.run("#{start_command}")
 				end   
 
 				def stop()
-					puts "stopping application using custom command"
+					puts "> stopping application using custom command"
 					@configuration.run("#{stop_command}")
 				end   				
 			end

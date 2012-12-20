@@ -12,7 +12,7 @@ module Capistrano
           raise Capistrano::Error, "could not find '#{name}::#{mono_const}' in '#{mono_file}'"
         end
       rescue LoadError
-        raise Capistrano::Error, "could not find any MONO deploy strategy named `#{mono}'"
+        raise Capistrano::Error, "could not find any MONO deploy strategy named '#{mono}' looking for file #{mono_file}"
       end
     end
   end

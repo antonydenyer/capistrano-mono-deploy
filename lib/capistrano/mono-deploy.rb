@@ -3,8 +3,8 @@ require "capistrano/mono/server"
 
 Capistrano::Configuration.instance(:must_exist).load do |configuration|
 
-after "deploy:update", "mono:restart"
-after "deploy:rollback", "mono:restart"
+after "deploy:update", "deploy:restart"
+after "deploy:rollback", "deploy:restart"
 
 set :application, 'Capistrano-Mono-Deploy' unless defined? application
 set :repository, File.dirname(Dir.glob("**/Web.config").first) unless defined? repository
@@ -14,7 +14,7 @@ set :copy_exclude, [".git/*","**/*.cs", "**/_*", "**/*proj", "**/obj"] unless de
 
 set :mono_app, :xsp unless defined? mono
 
-  namespace :mono do
+  namespace :deploy do
     task :restart, :roles => :app do
 		server = Capistrano::Deploy::MONO.new(mono_app, self)
 		server.stop()
