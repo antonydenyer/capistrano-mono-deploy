@@ -10,7 +10,7 @@ set :application, 'Capistrano-Mono-Deploy' unless defined? application
 set :repository, File.dirname(Dir.glob("**/Web.config").first) unless defined? repository
 set :scm, :none
 set :deploy_via, :copy 	
-set :copy_exclude, [".git/*","**/*.cs", "**/_*", "**/*proj", "**/obj"] unless defined? copy_exclude
+set :copy_exclude, [".git/*","**/*.cs", "**/_*", "**/*proj", "**/*.user", "**/obj"] unless defined? copy_exclude
 
 set :mono_app, :xsp unless defined? mono
 
