@@ -22,29 +22,37 @@ module Capistrano
 				def start()
 					puts "starting application using fastcgi on socket #{socket}"
 
-					@configuration.run("fastcgi-mono-server4 /applications=/:#{latest_release} /filename=#{socket} /socket=unix > /dev/null 2>&1 &")
+					appDir = @configuration.capture("readlink -f #{latest_release}").strip
+
+					@configuration.run("fastcgi-mono-server4 /applications=/:#{appDir} /filename=#{socket} /socket=unix > /dev/null 2>&1 &")
 					
+
 					attempt_number = 0
 					begin
 						attempt_number = attempt_number + 1
-						@configuration.run("curl localhost --silent --location --header 'Host: #{socket}' --output /dev/null")
+						status = @configuration.capture("curl --write-out %{http_code} localhost --silent --location --output /dev/null ").strip.to_i
+						if(status >= 400)
+							puts "localhost responded with #{status}"
+							raise
+						end
 					rescue
+						#HACK: you should just add www-data to the user
+						@configuration.run("chmod 777 #{socket}")
 						sleep 1
 						retry if attempt_number < 5
 						puts 'You need to configure your web server for fastcgi'
 						puts 'For example in nginx it you need to add the following params:'
 						puts ''
 						puts 'fastcgi_pass unix:/tmp/SOCK-$http_host;'
-						puts 'fastcgi_param  PATH_INFO          "";'
-						puts 'fastcgi_param  SCRIPT_FILENAME    $document_root$fastcgi_script_name;'
 						puts ''
+						puts 'check out http://www.mono-project.com/FastCGI_Nginx for more details'
 						raise CommandError.new("Failed to bring up the site")
 					end
 					puts "The site is up"
 				end   
 
 				def stop()
-					@configuration.run("pkill fastcgi-mono-server4 > /dev/null 2>&1 &")
+					@configuration.run("pkill mono || true")
 				end   				
 			end
 		end

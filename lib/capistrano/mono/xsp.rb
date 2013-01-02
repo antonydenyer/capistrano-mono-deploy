@@ -27,7 +27,11 @@ module Capistrano
 					attempt_number = 0
 					begin
 						attempt_number = attempt_number + 1
-						@configuration.run("curl localhost:#{port} --silent --location --output /dev/null")
+						status = @configuration.capture("curl --write-out %{http_code} localhost:#{port} --silent --location --output /dev/null ").strip.to_i
+						if(status >= 400)
+							puts "localhost responded with #{status}"
+							raise
+						end
 					rescue
 						sleep 1
 						retry if attempt_number < 10
