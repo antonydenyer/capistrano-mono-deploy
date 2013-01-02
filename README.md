@@ -6,7 +6,7 @@ Capistrano recipe for deploying mono apps.
 Features
 --------
 - Provides `cap deploy` functionality for your mono app
-- Automatically starts application using xsp4 
+- Automatically starts application using xsp4, fastcgi or using your own custom scripts
 - Provides tasks for starting (`cap mono:start`) and stopping (`cap mono:stop`) your mono app
 
 ## Installation
