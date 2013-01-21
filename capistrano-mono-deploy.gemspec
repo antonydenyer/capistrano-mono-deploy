@@ -4,10 +4,10 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 Gem::Specification.new do |gem|
 gem.name          = "capistrano-mono-deploy"
-gem.version       = "0.1.3"
+gem.version       = "0.1.4"
 gem.authors       = ["Antony Denyer"]
 gem.email         = ["antonydenyer@gmail.com"]
-gem.description   = %q{some capistrano recipes for deploying mono apps on to linux servers, currently only supports xsp}
+gem.description   = %q{some capistrano recipes for deploying mono apps on to linux servers, using railsless-deploy}
 gem.summary       = %q{Deploy mono applications with capistrano}
 gem.homepage      = "https://github.com/antonydenyer/capistrano-mono-deploy"
 

@@ -1,7 +1,7 @@
 Capistrano::Mono::Deploy
 ========================
 
-Capistrano recipe for deploying mono apps.
+[Capistrano](https://github.com/halorgium/capistrano) recipe for deploying mono apps. Utilising [railsless-deploy](https://github.com/leehambley/railsless-deploy) 
 
 Features
 --------
@@ -73,3 +73,9 @@ set :custom_start, "service myMonoApplicaton start"
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
+
+## Bugs & Feedback
+
+Via my Github profile please:
+
+    http://github.com/antonydenyer
