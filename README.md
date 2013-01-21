@@ -1,7 +1,7 @@
 Capistrano::Mono::Deploy
 ========================
 
-[Capistrano](https://github.com/halorgium/capistrano) recipe for deploying mono apps. Utilising [railsless-deploy](https://github.com/leehambley/railsless-deploy) 
+[Capistrano](https://github.com/halorgium/capistrano) recipe for deploying mono apps utilising [railsless-deploy](https://github.com/leehambley/railsless-deploy) 
 
 Features
 --------
@@ -78,4 +78,4 @@ set :custom_start, "service myMonoApplicaton start"
 
 Via my Github profile please:
 
-    http://github.com/antonydenyer
+[http://github.com/antonydenyer](http://github.com/antonydenyer)
